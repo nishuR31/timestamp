@@ -1,25 +1,24 @@
-# Timestamp-Based Concurrency Control (DBMS)
+u# Timestamp-Based Concurrency Control (DBMS)
 
 
 ---
 
 ## Table of Contents
 
-* [Intro](#student-1-intro)
+* [Intro](#intro)
 * [What is Timestamping](#what-is-timestamping)
 * [Why Timestamping Matters](#why-timestamping-matters)
 * [Basic Example](#basic-example)
-* [Questions](#student-1-questions)
-* [Rules](#student-2-rules)
+* [Questions](#questions)
+* [Rules](#rules)
 * [Read Rule](#read-rule)
 * [Write Rule](#write-rule)
 * [Examples](#basic-example-2)
 * [Conflict Handling](#conflict-handling)
-* [Questions](#student-2-questions)
-* [Strict Timestamp](#student-3-strict-timestamp)
+* [Questions](#questions)
+* [Strict Timestamp](#strict-timestamp)
 * [Strict Read/Write](#strict-readwrite)
 * [Benefits and Issues](#benefits-and-issues)
-* [Questions](#student-3-questions)
 * [Overall Summary](#overall-summary)
 * [Practice](#practice)
 
@@ -298,7 +297,7 @@ A. Locking
 B. Enforcing logical order
 C. Allowing dirty reads
 D. Random execution
-> B
+> Correct B
 
 
 ---
