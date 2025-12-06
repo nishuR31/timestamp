@@ -2,30 +2,35 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Timestamping PPT</title>
+  <title>Slides</title>
 
+  <!-- Reveal CSS -->
   <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/reveal.css">
   <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/theme/white.css">
 </head>
 <body>
   <div class="reveal">
     <div class="slides">
+      <!-- load markdown -->
       <section data-markdown="timeStamp.md"></section>
     </div>
   </div>
 
-  <!-- Main script -->
+  <!-- Reveal core -->
   <script src="https://unpkg.com/reveal.js/dist/reveal.js"></script>
 
   <!-- Markdown plugin -->
   <script src="https://unpkg.com/reveal.js/plugin/markdown/markdown.js"></script>
 
-  <!-- Highlight (optional) -->
+  <!-- Code highlight plugin (optional) -->
   <script src="https://unpkg.com/reveal.js/plugin/highlight/highlight.js"></script>
 
   <script>
     Reveal.initialize({
-      plugins: [ RevealMarkdown, RevealHighlight ]
+      plugins: [RevealMarkdown, RevealHighlight],
+      markdown: {
+        gfm: true
+      }
     });
   </script>
 </body>
