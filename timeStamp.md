@@ -23,7 +23,7 @@
 
 ---
 
-## Intro {#intro}
+## Intro 
 
 Concurrency control keeps multiple transactions from interfering when running in parallel.
 
@@ -35,7 +35,7 @@ This keeps execution logically consistent.
 
 ---
 
-## What is Timestamping {#what-is-timestamping}
+## What is Timestamping 
 
 Each transaction T receives a unique timestamp at start.
 
@@ -48,7 +48,7 @@ T1 is older, so T1’s actions appear earlier in the final schedule.
 
 ---
 
-## Why Timestamping Matters {#why-timestamping-matters}
+## Why Timestamping Matters 
 
 - No locks
 - No deadlocks
@@ -59,7 +59,7 @@ Older = higher priority.
 
 ---
 
-## Basic Example {#basic-example}
+## Basic Example 
 
 Two transactions want X:
 
@@ -72,7 +72,7 @@ Older wins. Database remains consistent.
 
 ---
 
-## Questions {#questions}
+## Questions 
 
 ---
 
@@ -107,7 +107,7 @@ B. T2
 
 ---
 
-## Rules {#rules}
+## Rules 
 
 Timestamp ordering uses:
 
@@ -118,7 +118,7 @@ These decide whether a new operation is safe or must abort.
 
 ---
 
-## Read Rule {#read-rule}
+## Read Rule 
 
 Transaction T does R(X):
 
@@ -130,7 +130,7 @@ If a younger transaction already wrote X, older T reading now would read the fut
 
 ---
 
-## Write Rule {#write-rule}
+## Write Rule 
 
 Transaction T does W(X):
 
@@ -141,7 +141,7 @@ Younger touching X earlier makes older writes unsafe.
 
 ---
 
-## Basic Example 2 {#basic-example-2}
+## Basic Example 2 
 
 Let:
 - TS(T1) = 5
@@ -154,7 +154,7 @@ T1 would read a future value. Abort T1.
 
 ---
 
-## Conflict Handling {#conflict-handling}
+## Conflict Handling 
 
 - Younger usually loses  
 - Older has priority  
@@ -163,7 +163,7 @@ This preserves serializable order.
 
 ---
 
-## Questions {#questions}
+## Questions 
 
 ---
 
@@ -206,7 +206,7 @@ B. W_TS
 
 ---
 
-## Strict Timestamp {#strict-timestamp}
+## Strict Timestamp 
 
 Basic timestamping aborts aggressively and may cause cascading aborts.
 
@@ -214,7 +214,7 @@ Strict TO delays operations until safe, reducing cascading aborts.
 
 ---
 
-## Strict Read/Write {#strict-readwrite}
+## Strict Read/Write 
 
 Strict Read:
 - W_TS(X) <= TS(T)
@@ -229,7 +229,7 @@ If not safe, T waits instead of aborting.
 
 ---
 
-## Benefits and Issues {#benefits-and-issues}
+## Benefits and Issues 
 
 Benefits:
 - Conflict serializable
@@ -242,7 +242,7 @@ Issues:
 
 ---
 
-## Overall Summary {#overall-summary}
+## Overall Summary 
 
 Timestamp ordering decides execution order via timestamps, not locks.
 
@@ -254,7 +254,7 @@ Timestamp ordering decides execution order via timestamps, not locks.
 
 ---
 
-## Practice {#practice}
+## Practice 
 
 ---
 
