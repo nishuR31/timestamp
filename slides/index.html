@@ -14,9 +14,19 @@
     </div>
   </div>
 
+  <!-- Main script -->
   <script src="https://unpkg.com/reveal.js/dist/reveal.js"></script>
+
+  <!-- Markdown plugin -->
+  <script src="https://unpkg.com/reveal.js/plugin/markdown/markdown.js"></script>
+
+  <!-- Highlight (optional) -->
+  <script src="https://unpkg.com/reveal.js/plugin/highlight/highlight.js"></script>
+
   <script>
-    Reveal.initialize();
+    Reveal.initialize({
+      plugins: [ RevealMarkdown, RevealHighlight ]
+    });
   </script>
 </body>
 </html>
