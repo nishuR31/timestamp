@@ -2,41 +2,49 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Slides</title>
+  <title>Timestamp Slides</title>
 
-  <!-- Reveal CSS -->
   <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/reveal.css">
-  <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/theme/white.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/theme/sky.css"> 
+  <!-- Try: sky, solarized, blood, league, night -->
+  
+  <style>
+    .reveal h1, .reveal h2 {
+      color: #ff4081; /* pink highlight */
+    }
+    .reveal h3 {
+      color: #0066ff;
+    }
+    .reveal p, .reveal li {
+      font-size: 1.2rem;
+    }
+    .reveal strong {
+      color: #ff9800;
+    }
+  </style>
 </head>
+
 <body>
   <div class="reveal">
     <div class="slides">
-      <!-- load markdown -->
-      <section data-markdown="timeStamp.md"
-  data-separator="^---$"
-  data-separator-vertical="^--$"
-  data-separator-notes="^Note:"
-  data-charset="utf-8">
-      </section>
-      
+      <section
+        data-markdown="timeStamp.md"
+        data-separator="^---$"
+        data-separator-vertical="^--$"
+        data-charset="utf-8"
+      ></section>
     </div>
   </div>
 
-  <!-- Reveal core -->
   <script src="https://unpkg.com/reveal.js/dist/reveal.js"></script>
-
-  <!-- Markdown plugin -->
   <script src="https://unpkg.com/reveal.js/plugin/markdown/markdown.js"></script>
-
-  <!-- Code highlight plugin (optional) -->
   <script src="https://unpkg.com/reveal.js/plugin/highlight/highlight.js"></script>
 
   <script>
     Reveal.initialize({
-      plugins: [RevealMarkdown, RevealHighlight],
-      markdown: {
-        gfm: true
-      }
+      hash: true,
+      slideNumber: true,
+      plugins: [RevealMarkdown, RevealHighlight]
     });
   </script>
 </body>
