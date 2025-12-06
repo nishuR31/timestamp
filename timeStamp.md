@@ -1,6 +1,5 @@
 # Timestamp-Based Concurrency Control (DBMS)
 
-### A simple slide-style explanation for students (3 student parts)
 
 ---
 
