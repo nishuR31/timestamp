@@ -78,33 +78,35 @@ Older wins. Younger loses. Database stays consistent.
 
 ## Questions
 
-Q1. Why do we avoid deadlocks here?
+---
+
+### Q1. Why do we avoid deadlocks here?
 
 ---
 
- Q1. Why do we avoid deadlocks here?
+### Q1. Why do we avoid deadlocks here?
 
-Because there are no locks involved.
-
----
-
-Q2. What tells us who is older?
+> Because there are no locks involved.
 
 ---
 
-Q2. What tells us who is older
-
-Timestamp assigned when the transaction started.
+### Q2. What tells us who is older?
 
 ---
 
-MCQ: If TS(T1) < TS(T2), who has priority
+### Q2. What tells us who is older
+
+> Timestamp assigned when the transaction started.
+
+---
+
+### MCQ: If TS(T1) < TS(T2), who has priority
 A. T1
 B. T2
 
 ---
 
-MCQ: If TS(T1) < TS(T2), who has priority
+### MCQ: If TS(T1) < TS(T2), who has priority
 A. T1
 B. T2
 > Correct: A
@@ -176,20 +178,42 @@ This bias ensures serializable order, even if real timing is different.
 
 ## Questions
 
-Q1. Why do we abort T when reading future values
-To keep logical order of older first, younger second.
+--- 
 
-MCQ: If a younger transaction already wrote X, an older transaction trying to read should
+### Q1. Why do we abort T when reading future values
+
+---
+
+### Q1. Why do we abort T when reading future values 
+> To keep logical order of older first, younger second.
+
+--- 
+
+### MCQ: If a younger transaction already wrote X, an older transaction trying to read should
 A. Read anyway
 B. Abort
 C. Wait
 D. Ignore X
-Correct: B
 
-MCQ: Which timestamp tracks last write
+---
+
+### MCQ: If a younger transaction already wrote X, an older transaction trying to read should
+A. Read anyway
+B. Abort
+C. Wait
+D. Ignore X
+> Correct: B
+
+### MCQ: Which timestamp tracks last write
 A. R_TS
 B. W_TS
-Correct: B
+
+---
+
+### MCQ: Which timestamp tracks last write
+A. R_TS
+B. W_TS
+> Correct: B
 
 ---
 
@@ -232,33 +256,8 @@ Benefits:
 
 Issues:
 
-* Basic TO suffers cascading aborts
 * Newer transactions may starve
 * Timestamp checks add overhead
-* Strict TO might be slower because of waiting
-
----
-
-##  Questions
-
-Q1. Why strict TO waits
-To avoid cascading aborts by ensuring previous operations are committed.
-
-MCQ: Strict TO prevents
-A. Deadlocks only
-B. Cascading aborts
-C. Starvation
-D. Disk failure
----
-Q1. Why strict TO waits
-To avoid cascading aborts by ensuring previous operations are committed.
-
-MCQ: Strict TO prevents
-A. Deadlocks only
-B. Cascading aborts
-C. Starvation
-D. Disk failure
-Correct: B
 
 ---
 
@@ -278,11 +277,15 @@ This makes concurrency predictable and logically ordered, while reducing typical
 
 ## Practice
 
+---
+
+
 1. What is the use of timestamps in concurrency control
 2. What is meant by reading a future value
 
+---
 
-MCQ: Timestamp ordering is mainly for
+### MCQ: Timestamp ordering is mainly for
 A. Locking
 B. Enforcing logical order
 C. Allowing dirty reads
@@ -290,16 +293,17 @@ D. Random execution
 
 ---
 
-MCQ: Timestamp ordering is mainly for
+### MCQ: Timestamp ordering is mainly for
 A. Locking
 B. Enforcing logical order
 C. Allowing dirty reads
 D. Random execution
-> Correct: B
+> B
+
 
 ---
 
-MCQ: Cascading aborts happen because
+### MCQ: Cascading aborts happen because
 A. Too many locks
 B. Writes without commit confirmation
 C. Old values are overwritten instantly
@@ -307,9 +311,14 @@ D. Timestamps are wrong
 
 ---
 
-MCQ: Cascading aborts happen because
+### MCQ: Cascading aborts happen because
 A. Too many locks
 B. Writes without commit confirmation
 C. Old values are overwritten instantly
 D. Timestamps are wrong
 > Correct: B
+
+---
+
+## Thank you for listening.
+### Aborting
