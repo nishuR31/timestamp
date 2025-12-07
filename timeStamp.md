@@ -215,7 +215,7 @@ Strict TO delays operations until safe, reducing cascading aborts.
 ---
 
 <img src="StrictTO.png"
-     style="width:50%; height:75%;" />
+     style="width30%; height:50%;" />
 
 ---
 
