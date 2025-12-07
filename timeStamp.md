@@ -214,8 +214,8 @@ Strict TO delays operations until safe, reducing cascading aborts.
 
 ---
 
-![StrictTO](StrictTO.png)
-
+<img src="StrictTO.png"
+     style="width:100%; height:auto;" />
 
 ---
 
