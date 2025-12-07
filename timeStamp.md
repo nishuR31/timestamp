@@ -25,6 +25,16 @@
 
 ## Intro
 
+**Timestamping in DBMS** means giving every transaction a unique time-based number so the database always knows which transaction is older and which is newer, and it can force all reads and writes to follow that order.
+
+In one line:
+
+**“Assign a time to each transaction and make everyone follow that time order to avoid conflicts, without using locks.”**
+
+---
+
+## Use
+
 Concurrency control keeps multiple transactions from interfering when running in parallel.
 
 Timestamp-based concurrency control avoids locks.  
