@@ -1,224 +1,251 @@
 # Timestamp-Based Concurrency Control (DBMS)
 
-
 ---
 
 ## Table of Contents
 
-* [Intro](#student-1-intro)
-* [What is Timestamping](#what-is-timestamping)
-* [Why Timestamping Matters](#why-timestamping-matters)
-* [Basic Example](#basic-example)
-* [Questions](#student-1-questions)
-* [Rules](#student-2-rules)
-* [Read Rule](#read-rule)
-* [Write Rule](#write-rule)
-* [Examples](#basic-example-2)
-* [Conflict Handling](#conflict-handling)
-* [Questions](#student-2-questions)
-* [Strict Timestamp](#student-3-strict-timestamp)
-* [Strict Read/Write](#strict-readwrite)
-* [Benefits and Issues](#benefits-and-issues)
-* [Questions](#student-3-questions)
-* [Overall Summary](#overall-summary)
-* [Practice](#practice)
+- [Intro](#intro)
+- [What is Timestamping](#what-is-timestamping)
+- [Why Timestamping Matters](#why-timestamping-matters)
+- [Basic Example](#basic-example)
+- [Questions](#questions)
+- [Rules](#rules)
+- [Read Rule](#read-rule)
+- [Write Rule](#write-rule)
+- [Basic Example 2](#basic-example-2)
+- [Conflict Handling](#conflict-handling)
+- [Questions](#questions)
+- [Strict Timestamp](#strict-timestamp)
+- [Strict Read/Write](#strict-readwrite)
+- [Benefits and Issues](#benefits-and-issues)
+- [Overall Summary](#overall-summary)
+- [Practice](#practice)
 
 ---
 
 ## Intro
 
-Concurrency control keeps multiple transactions from messing each other up when they run at the same time.
+Concurrency control keeps multiple transactions from interfering when running in parallel.
 
-Timestamp-based concurrency control avoids locking.
-Instead of blocking, it orders transactions by time.
-Older transactions logically come first, even if physically running later.
+Timestamp-based concurrency control avoids locks.  
+Instead of blocking, it orders transactions by time.  
+Older transactions logically come first.
 
-This makes the system behave as if everything happened in a consistent order.
+This keeps execution logically consistent.
 
 ---
 
 ## What is Timestamping
 
-Each transaction T gets a unique timestamp when it starts.
+Each transaction T receives a unique timestamp at start.
+
 Example:
 
-TS(T1) = 5
+TS(T1) = 5  
 TS(T2) = 10
 
-T1 is older.
-This means T1’s actions should appear earlier in the final schedule.
+T1 is older, so T1’s actions appear earlier in the final schedule.
 
 ---
 
 ## Why Timestamping Matters
 
-* No locks
-* No deadlocks
-* Conflicts handled automatically
-* Execution tries to follow timestamp order
+- No locks
+- No deadlocks
+- Conflicts handled automatically
+- Execution follows timestamp order
 
-Think of timestamps like a queue. Whoever arrived earlier has the right to be seen first.
+Older = higher priority.
 
 ---
 
 ## Basic Example
 
-Two transactions want X.
+Two transactions want X:
 
-* T1 writes X
-* T2 tries writing X
+- T1 writes X
+- T2 writes X
 
-Since T1 is older, the DB forces logical order:
+If ordering is violated, younger transaction may abort and restart.
 
-If T2 violates ordering, T2 gets aborted and restarted later with a new timestamp.
-
-Older wins. Younger loses. Database stays consistent.
+Older wins. Database remains consistent.
 
 ---
 
 ## Questions
 
-Q1. Why do we avoid deadlocks here?
+---
+
+### Q1. Why do we avoid deadlocks here?
 
 ---
 
- Q1. Why do we avoid deadlocks here?
+### Q1. Why do we avoid deadlocks here?
 
-Because there are no locks involved.
-
----
-
-Q2. What tells us who is older?
+> Because there are no locks involved.
 
 ---
 
-Q2. What tells us who is older
-
-Timestamp assigned when the transaction started.
+### Q2. What tells us who is older?
 
 ---
 
-MCQ: If TS(T1) < TS(T2), who has priority
-A. T1
+### Q2. What tells us who is older?
+
+> Timestamp assigned at start.
+
+---
+
+### MCQ: If TS(T1) < TS(T2), who has priority?
+
+A. T1  
 B. T2
 
 ---
 
-MCQ: If TS(T1) < TS(T2), who has priority
-A. T1
+### MCQ: If TS(T1) < TS(T2), who has priority?
+
+A. T1  
 B. T2
+
 > Correct: A
 
 ---
 
 ## Rules
 
-Timestamp ordering uses two timestamps per data item X:
+Timestamp ordering uses:
 
-* R_TS(X): time of last read on X
-* W_TS(X): time of last write on X
+- R_TS(X): last read timestamp
+- W_TS(X): last write timestamp
 
-These help the DB decide if a new read/write is safe or should be aborted.
+These decide whether a new operation is safe or must abort.
 
 ---
 
 ## Read Rule
 
-Transaction T wants R(X):
+Transaction T does R(X):
 
-If W_TS(X) > TS(T) then abort T
-Else read and update R_TS(X)
+If W_TS(X) > TS(T), then abort T.  
+Else read and set R_TS(X).
 
-Meaning:
-If a younger transaction already wrote X, older T reading now would read a value from the “future”. That breaks logical order.
-
-So T aborts and restarts.
+Meaning:  
+If a younger transaction already wrote X, older T reading now would read the future. Abort to preserve order.
 
 ---
 
 ## Write Rule
 
-Transaction T wants W(X):
+Transaction T does W(X):
 
-If R_TS(X) > TS(T) OR W_TS(X) > TS(T) then abort T
-Else write and update W_TS(X)
+If R_TS(X) > TS(T) or W_TS(X) > TS(T), abort T.  
+Else write and update W_TS(X).
 
-Translation:
-If a younger transaction already touched X in a way that breaks order, the write is unsafe. Abort.
+Younger touching X earlier makes older writes unsafe.
 
 ---
 
 ## Basic Example 2
 
 Let:
-TS(T1)=5
-TS(T2)=10
 
-Suppose T2 writes X first, so W_TS(X)=10.
+- TS(T1) = 5
+- TS(T2) = 10
 
-Now T1 tries R(X).
-But W_TS(X) = 10 > TS(T1) = 5.
+Suppose T2 writes X first ⇒ W_TS(X)=10  
+Now T1 tries R(X): W_TS(X)=10 > TS(T1)=5
 
-T1 would be reading a value that belongs to a younger transaction. That’s reading from the future. Abort T1.
+T1 would read a future value. Abort T1.
 
 ---
 
 ## Conflict Handling
 
-When conflict happens:
+- Younger usually loses
+- Older has priority
 
-* Younger transaction usually loses
-* Because older has logical priority
-
-This bias ensures serializable order, even if real timing is different.
+This preserves serializable order.
 
 ---
 
 ## Questions
 
-Q1. Why do we abort T when reading future values
-To keep logical order of older first, younger second.
+---
 
-MCQ: If a younger transaction already wrote X, an older transaction trying to read should
-A. Read anyway
-B. Abort
-C. Wait
-D. Ignore X
-Correct: B
+### Q1. Why do we abort T when reading future values?
 
-MCQ: Which timestamp tracks last write
-A. R_TS
+---
+
+### Q1. Why do we abort T when reading future values?
+
+> To keep older-first logical order.
+
+---
+
+### MCQ: If a younger transaction already wrote X, an older transaction trying to read should
+
+A. Read  
+B. Abort  
+C. Wait  
+D. Ignore
+
+---
+
+### MCQ: If a younger transaction already wrote X, an older transaction trying to read should
+
+A. Read  
+B. Abort  
+C. Wait  
+D. Ignore
+
+> Correct: B
+
+---
+
+### MCQ: Which timestamp tracks last write
+
+A. R_TS  
 B. W_TS
-Correct: B
+
+---
+
+### MCQ: Which timestamp tracks last write
+
+A. R_TS  
+B. W_TS
+
+> Correct: B
 
 ---
 
 ## Strict Timestamp
 
-Basic timestamping aborts aggressively.
-This can cause cascading aborts (one abort triggers others).
+Basic timestamping aborts aggressively and may cause cascading aborts.
 
-Strict timestamp ordering is a variation that tries to prevent this.
-Instead of aborting instantly, it delays operations until they are safe to execute.
+Strict TO delays operations until safe, reducing cascading aborts.
+
+---
+
+
+<img src="StrictTO.png" class="r-stretch" />
 
 ---
 
 ## Strict Read/Write
 
 Strict Read:
-T can read X only if:
 
-* W_TS(X) <= TS(T)
-* The transaction that wrote X has committed
+- W_TS(X) <= TS(T)
+- Writer committed
 
 Strict Write:
-T can write X only if:
 
-* R_TS(X) <= TS(T)
-* W_TS(X) <= TS(T)
-* All previous readers/writers have committed
+- R_TS(X) <= TS(T)
+- W_TS(X) <= TS(T)
+- Prior readers/writers committed
 
-If not safe, T waits instead of immediate abort.
+If not safe, T waits instead of aborting.
 
 ---
 
@@ -226,90 +253,94 @@ If not safe, T waits instead of immediate abort.
 
 Benefits:
 
-* Conflict serializable
-* No locks, so no deadlocks
-* Prevents cascading aborts (strict version)
+- Conflict serializable
+- No locks, no deadlocks
+- Strict TO avoids cascading aborts
 
 Issues:
 
-* Basic TO suffers cascading aborts
-* Newer transactions may starve
-* Timestamp checks add overhead
-* Strict TO might be slower because of waiting
-
----
-
-##  Questions
-
-Q1. Why strict TO waits
-To avoid cascading aborts by ensuring previous operations are committed.
-
-MCQ: Strict TO prevents
-A. Deadlocks only
-B. Cascading aborts
-C. Starvation
-D. Disk failure
----
-Q1. Why strict TO waits
-To avoid cascading aborts by ensuring previous operations are committed.
-
-MCQ: Strict TO prevents
-A. Deadlocks only
-B. Cascading aborts
-C. Starvation
-D. Disk failure
-Correct: B
+- Newer transactions may starve
+- Checks add overhead
 
 ---
 
 ## Overall Summary
 
-Timestamp-based concurrency control decides who acts first by using timestamps, not locks.
+Timestamp ordering decides execution order via timestamps, not locks.
 
-* Older transactions have priority
-* Basic TO aborts unsafe actions immediately
-* Strict TO waits to avoid cascading aborts
-* Uses R_TS and W_TS to check safety
-* No deadlocks because there are no locks
-
-This makes concurrency predictable and logically ordered, while reducing typical lock-based issues.
+- Older transactions have priority
+- Basic TO aborts unsafe actions
+- Strict TO waits to avoid cascading aborts
+- Uses R_TS and W_TS
+- No deadlocks without locks
 
 ---
 
 ## Practice
 
-1. What is the use of timestamps in concurrency control
-2. What is meant by reading a future value
+---
 
+1. Purpose of timestamps in concurrency control
+2. Meaning of reading a future value
 
-MCQ: Timestamp ordering is mainly for
-A. Locking
-B. Enforcing logical order
-C. Allowing dirty reads
+---
+
+### MCQ: Timestamp ordering is mainly for
+
+A. Locking  
+B. Enforcing logical order  
+C. Allowing dirty reads  
 D. Random execution
 
 ---
 
-MCQ: Timestamp ordering is mainly for
-A. Locking
-B. Enforcing logical order
-C. Allowing dirty reads
+### MCQ: Timestamp ordering is mainly for
+
+A. Locking  
+B. Enforcing logical order  
+C. Allowing dirty reads  
 D. Random execution
+
 > Correct: B
 
 ---
 
-MCQ: Cascading aborts happen because
-A. Too many locks
-B. Writes without commit confirmation
-C. Old values are overwritten instantly
-D. Timestamps are wrong
+### MCQ: Cascading aborts happen because
+
+A. Too many locks  
+B. Writes without commit confirmation  
+C. Old values overwritten instantly  
+D. Timestamps wrong
 
 ---
 
-MCQ: Cascading aborts happen because
-A. Too many locks
-B. Writes without commit confirmation
-C. Old values are overwritten instantly
-D. Timestamps are wrong
+### MCQ: Cascading aborts happen because
+
+A. Too many locks  
+B. Writes without commit confirmation  
+C. Old values overwritten instantly  
+D. Timestamps wrong
+
 > Correct: B
+
+---
+
+### Bibliography
+
+> [users.cs.fiu](https://users.cs.fiu.edu/~prabakar/database/cmaps/mod_04/StrictTO.pdf)
+
+> [geeksforgeeks](https://www.geeksforgeeks.org/dbms/timestamp-based-concurrency-control/)
+
+> [scaler](https://www.scaler.com/topics/timestamp-based-protocols-in-dbms/)
+
+---
+
+## Thank you for listening.
+
+### Aborting after commit :
+
+```bash
+git add .
+git commit -m "transaction commited"
+git push -f origin main
+```
