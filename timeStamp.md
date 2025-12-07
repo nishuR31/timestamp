@@ -214,6 +214,11 @@ Strict TO delays operations until safe, reducing cascading aborts.
 
 ---
 
+![StrictTO](StrictTO.png)
+
+
+---
+
 ## Strict Read/Write 
 
 Strict Read:
@@ -297,5 +302,21 @@ D. Timestamps wrong
 
 ---
 
+### Bibliography
+
+> [users.cs.fiu](https://users.cs.fiu.edu/~prabakar/database/cmaps/mod_04/StrictTO.pdf)
+
+> [geeksforgeeks](https://www.geeksforgeeks.org/dbms/timestamp-based-concurrency-control/)
+
+>[scaler](https://www.scaler.com/topics/timestamp-based-protocols-in-dbms/)
+
+---
+
 ## Thank you for listening.
-### Aborting
+### Aborting after commit :
+
+```bash
+git add .
+git commit -m "transaction commited"
+git push -f origin main
+```
