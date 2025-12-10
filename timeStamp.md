@@ -238,10 +238,6 @@ Strict TO delays operations until safe, reducing cascading aborts.
 ---
 
 
-<img src="StrictTO.png" class="r-stretch" />
-
----
-
 ## Strict Read/Write
 
 Strict Read:
